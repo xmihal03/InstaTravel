@@ -32,16 +32,14 @@ export const Title = styled.div`
   }
 `
 
-// .main-navigation__header-nav {
-//   display: none;
-// }
+export const Nav = styled.nav`
+  display: none;
 
-// .main-navigation__drawer-nav {
-//   height: 100%;
-// }
+  @media (min-width: 768px) {
+    display: block;
+  }
+`
 
-// @media (min-width: 768px) {
-//   .main-navigation__header-nav {
-//     display: block;
-//   }
-// }
+export const NavDrawer = styled.nav`
+  height: 100%;
+`
