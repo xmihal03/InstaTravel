@@ -9,13 +9,14 @@ import {
 import Users from './user/pages/Users'
 import NewPlace from './places/pages/NewPlace'
 import MainNavigation from './shared/components/Navigation/MainNavigation'
-import { Main } from './styles'
+import GlobalStyles from './globalStyles'
 
 const App = () => {
   return (
     <Router>
+      <GlobalStyles />
       <MainNavigation />
-      <Main>
+      <main>
         <Switch>
           <Route path="/" exact>
             <Users />
@@ -25,7 +26,7 @@ const App = () => {
           </Route>
           <Redirect to="/" />
         </Switch>
-      </Main>
+      </main>
     </Router>
   )
 }
