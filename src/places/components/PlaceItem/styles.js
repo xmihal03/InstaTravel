@@ -42,12 +42,7 @@ export const Actions = styled.div`
   }
 `
 
-// export const StyledLi = styled.li`
-// .place-item__modal-content {
-//   padding: 0;
-// }
-
-// export const StyledLi = styled.li`
-// .place-item__modal-actions {
-//   text-align: right;
-// }
+export const Map = styled.div`
+  height: 15rem;
+  width: 100%;
+`

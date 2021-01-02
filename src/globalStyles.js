@@ -41,6 +41,28 @@ const GlobalStyle = createGlobalStyle`
 	main {
 		margin-top: 5rem;
 	}
+
+	.modal-enter {
+  transform: translateY(-10rem);
+  opacity: 0;
+}
+
+.modal-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 200ms;
+}
+
+.modal-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-exit-active {
+  transform: translateY(-10rem);
+  opacity: 0;
+  transition: all 200ms;
+}
 `
 
 export default GlobalStyle
