@@ -42,7 +42,7 @@ export const Actions = styled.div`
   }
 `
 
-export const Map = styled.div`
+export const StyledMap = styled.div`
   height: 15rem;
   width: 100%;
 `

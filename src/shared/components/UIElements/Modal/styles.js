@@ -21,7 +21,7 @@ export const Content = styled.div`
 `
 export const Footer = styled.footer`
   padding: 1rem 0.5rem;
-  ${({ footerClass }) => footerClass === 'alignRight' && `text-align: right`}
+  ${({ customclass }) => customclass === 'alignRight' && `text-align: right`}
 `
 export const Header = styled.header`
   width: 100%;
