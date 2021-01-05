@@ -7,9 +7,22 @@ import { StyledLi, Info, StyledImage, Actions, StyledMap } from './styles'
 import Map from '../../../shared/components/UIElements/Map'
 const PlaceItem = (props) => {
   const [showMap, setShowMap] = useState(false)
-
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
   const openMapHandler = () => setShowMap(true)
   const closeMapHandler = () => setShowMap(false)
+
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true)
+  }
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false)
+  }
+
+  const confirmDeleteHandler = () => {
+    setShowConfirmModal(false)
+    console.log('DELETING ...')
+  }
 
   return (
     <>
@@ -24,6 +37,23 @@ const PlaceItem = (props) => {
         <StyledMap>
           <Map center={props.coordinates} zoom={16} />
         </StyledMap>
+      </Modal>
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footer={
+          <>
+            <Button customclass="inverse" onClick={cancelDeleteHandler}>
+              CANCEL
+            </Button>
+            <Button customclass="danger" onClick={confirmDeleteHandler}>
+              DELETE
+            </Button>
+          </>
+        }
+      >
+        <p>Do you want to procees and delete this place?</p>
       </Modal>
       <StyledLi>
         <Card>
@@ -40,7 +70,9 @@ const PlaceItem = (props) => {
               VIEW ON MAP
             </Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button customclass="danger">DELETE</Button>
+            <Button customclass="danger" onClick={showDeleteWarningHandler}>
+              DELETE
+            </Button>
           </Actions>
         </Card>
       </StyledLi>

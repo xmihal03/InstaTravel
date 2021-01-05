@@ -16,8 +16,8 @@ const DUMMY_PLACES = [
   },
   {
     id: 'p2',
-    title: 'A Building',
-    description: 'A tall building',
+    title: 'A Building2',
+    description: 'A tall building2',
     imageUrl:
       'https://images.pexels.com/photos/4652004/pexels-photo-4652004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
     address:
