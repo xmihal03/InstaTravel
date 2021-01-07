@@ -32,8 +32,8 @@ const sharedStyle = css`
     cursor: not-allowed;
   }
 
-  ${({ customclass }) =>
-    (customclass === 'inverse' &&
+  ${({ inverse, danger, center }) =>
+    (inverse &&
       css`
         background: transparent;
         color: #ff0055;
@@ -44,7 +44,7 @@ const sharedStyle = css`
           background: #ff0055;
         }
       `) ||
-    (customclass === 'danger' &&
+    (danger &&
       css`
         background: #830000;
         border-color: #830000;
@@ -54,6 +54,11 @@ const sharedStyle = css`
           background: #f34343;
           border-color: #f34343;
         }
+      `) ||
+    (center &&
+      css`
+        display: block;
+        margin: 0 auto;
       `)}
 
   font-size: ${({ buttonsize }) =>

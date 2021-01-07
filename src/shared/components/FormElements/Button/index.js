@@ -5,11 +5,7 @@ import { CustomButton, CustomAnchor, CustomRouterLink } from './styles'
 const Button = (props) => {
   if (props.href) {
     return (
-      <CustomAnchor
-        buttonsize={props.buttonsize}
-        customclass={props.customclass}
-        href={props.href}
-      >
+      <CustomAnchor {...props} buttonsize={props.buttonsize} href={props.href}>
         {props.children}
       </CustomAnchor>
     )
@@ -17,10 +13,10 @@ const Button = (props) => {
   if (props.to) {
     return (
       <CustomRouterLink
+        {...props}
         to={props.to}
         exact={props.exact}
         buttonsize={props.buttonsize}
-        customclass={props.customclass}
       >
         {props.children}
       </CustomRouterLink>
@@ -28,6 +24,7 @@ const Button = (props) => {
   }
   return (
     <CustomButton
+      {...props}
       buttonsize={props.buttonsize}
       customclass={props.customclass}
       type={props.type}

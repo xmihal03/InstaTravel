@@ -44,10 +44,10 @@ const PlaceItem = (props) => {
         header="Are you sure?"
         footer={
           <>
-            <Button customclass="inverse" onClick={cancelDeleteHandler}>
+            <Button inverse onClick={cancelDeleteHandler}>
               CANCEL
             </Button>
-            <Button customclass="danger" onClick={confirmDeleteHandler}>
+            <Button danger onClick={confirmDeleteHandler}>
               DELETE
             </Button>
           </>
@@ -66,11 +66,11 @@ const PlaceItem = (props) => {
             <p>{props.description}</p>
           </Info>
           <Actions>
-            <Button customclass="inverse" onClick={openMapHandler}>
+            <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button customclass="danger" onClick={showDeleteWarningHandler}>
+            <Button danger onClick={showDeleteWarningHandler}>
               DELETE
             </Button>
           </Actions>

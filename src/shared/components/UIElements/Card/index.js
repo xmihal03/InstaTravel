@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Wrapper } from './styles'
 
-const Card = (props) => {
-  return <Wrapper>{props.children}</Wrapper>
+const Card = ({ className, children }) => {
+  return <Wrapper className={className}>{children}</Wrapper>
 }
 
 export default Card
