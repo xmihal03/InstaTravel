@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Input from '../../shared/components/FormElements/Input'
 import Button from '../../shared/components/FormElements/Button'
-import { AuthForm, Caption, Authentication } from './styles'
+import { Caption, Authentication } from './styles'
 import { useForm } from '../../shared/hooks/form-hook'
 import {
   VALIDATOR_REQUIRE,
@@ -9,7 +9,10 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_MAXLENGTH,
 } from '../../shared/util/validators'
+import { AuthContext } from '../../shared/context/auth-context'
+
 const Auth = () => {
+  const auth = useContext(AuthContext)
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: { value: '', isValid: false },
@@ -22,6 +25,7 @@ const Auth = () => {
   const onSubmitHandler = () => {
     setIsLoading(true)
     console.log(formState.inputs)
+    auth.login()
   }
 
   const switchModeHandler = () => {
