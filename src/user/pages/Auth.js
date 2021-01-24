@@ -10,7 +10,7 @@ import {
   VALIDATOR_MAXLENGTH,
 } from '../../shared/util/validators'
 const Auth = () => {
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       email: { value: '', isValid: false },
       password: { value: '', isValid: false },
@@ -18,16 +18,43 @@ const Auth = () => {
     false
   )
   const [isLoading, setIsLoading] = useState(false)
-
+  const [isLoginMode, setIsLoginMode] = useState(true)
   const onSubmitHandler = () => {
     setIsLoading(true)
     console.log(formState.inputs)
   }
+
+  const switchModeHandler = () => {
+    if (!isLoginMode) {
+      setFormData(
+        { ...formState.inputs, name: undefined },
+        formState.inputs.email.isValid && formState.inputs.password.isValid
+      )
+    } else {
+      setFormData(
+        { ...formState.inputs, name: { value: '', isValid: false } },
+        false
+      )
+    }
+    setIsLoginMode((prevMode) => !prevMode)
+  }
+
   return (
     <Authentication>
       <Caption>Login Required</Caption>
       <hr />
       <form onSubmit={onSubmitHandler}>
+        {!isLoginMode && (
+          <Input
+            element="input"
+            id="name"
+            type="text"
+            label="Your Name"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText="Please enter a name"
+            onInput={inputHandler}
+          />
+        )}
         <Input
           placeholder="Your email"
           element="input"
@@ -53,9 +80,12 @@ const Auth = () => {
           label="Password"
         />
         <Button center disabled={!formState.isValid || isLoading}>
-          Login
+          {isLoginMode ? 'LOGIN' : 'SIGNUP'}
         </Button>
       </form>
+      <Button inverse onClick={switchModeHandler}>
+        SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
+      </Button>
     </Authentication>
   )
 }
