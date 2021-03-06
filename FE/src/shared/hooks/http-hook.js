@@ -20,15 +20,22 @@ export const useHttpClient = () => {
           signal: httpAbortCtrl.signal,
         })
 
-        const responseDate = await res.json()
+        const responseData = await res.json()
+
+        activeHttpRequest.current = activeHttpRequest.current.filter(
+          (reqCtrl) => reqCtrl !== httpAbortCtrl
+        )
         if (!res.ok) {
-          throw new Error(responseDate.message)
+          throw new Error(responseData.message)
         }
+        setIsLoading(false)
+
         return responseData
       } catch (err) {
         setError(err.message)
+        setIsLoading(false)
+        throw err
       }
-      setIsLoading(false)
     },
     []
   )

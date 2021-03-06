@@ -3,6 +3,7 @@ import Input from '../../shared/components/FormElements/Input'
 import Button from '../../shared/components/FormElements/Button'
 import { Caption, Authentication } from './styles'
 import { useForm } from '../../shared/hooks/form-hook'
+import { useHttpClient } from '../../shared/hooks/http-hook'
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
@@ -22,61 +23,43 @@ const Auth = () => {
     },
     false
   )
-  const [isLoading, setIsLoading] = useState(false)
   const [isLoginMode, setIsLoginMode] = useState(true)
-  const [error, setError] = useState()
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const authSubmitHandler = async (e) => {
     e.preventDefault()
-    setIsLoading(true)
 
     if (isLoginMode) {
       try {
-        const res = await fetch('http://localhost:5000/api/users/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        await sendRequest(
+          'http://localhost:5000/api/users/login',
+          'POST',
+          JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           }),
-        })
-        const responseDate = await res.json()
-        if (!res.ok) {
-          throw new Error(responseDate.message)
-        }
-        setIsLoading(false)
+          { 'Content-Type': 'application/json' }
+        )
+
         auth.login()
-      } catch (err) {
-        console.error(err)
-        setIsLoading(false)
-        setError(err.message || 'Something went wrong.')
-      }
+      } catch (err) {}
     } else {
       try {
-        const res = await fetch('http://localhost:5000/api/users/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        await sendRequest(
+          'http://localhost:5000/api/users/signup',
+          'POST',
+          JSON.stringify({
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           }),
-        })
-        const responseDate = await res.json()
-        if (!res.ok) {
-          throw new Error(responseDate.message)
-        }
-        setIsLoading(false)
+          {
+            'Content-Type': 'application/json',
+          }
+        )
+
         auth.login()
-      } catch (err) {
-        console.error(err)
-        setIsLoading(false)
-        setError(err.message || 'Something went wrong.')
-      }
+      } catch (err) {}
     }
   }
 
@@ -95,13 +78,9 @@ const Auth = () => {
     setIsLoginMode((prevMode) => !prevMode)
   }
 
-  const errorHandler = () => {
-    setError(null)
-  }
-
   return (
     <>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       <Authentication>
         {isLoading && <LoadingSpinner asOverlay />}
         <Caption>Login Required</Caption>
