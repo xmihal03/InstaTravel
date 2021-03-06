@@ -22,9 +22,32 @@ const Auth = () => {
   )
   const [isLoading, setIsLoading] = useState(false)
   const [isLoginMode, setIsLoginMode] = useState(true)
-  const onSubmitHandler = () => {
+
+  const authSubmitHandler = async (e) => {
+    e.preventDefault()
     setIsLoading(true)
-    console.log(formState.inputs)
+
+    if (isLoginMode) {
+    } else {
+      try {
+        const res = await fetch('http://localhost:5000/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        })
+        const responseDate = await res.json()
+        console.log(responseDate)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
     auth.login()
   }
 
@@ -47,7 +70,7 @@ const Auth = () => {
     <Authentication>
       <Caption>Login Required</Caption>
       <hr />
-      <form onSubmit={onSubmitHandler}>
+      <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
           <Input
             element="input"
