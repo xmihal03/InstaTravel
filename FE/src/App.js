@@ -26,7 +26,7 @@ const App = () => {
 
   const logout = useCallback(() => {
     setIsLoggedIn(false)
-    userId(null)
+    setUserId(null)
   }, [])
 
   let routes

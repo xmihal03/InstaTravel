@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../../../context/auth-context'
 import { Links, CustomNavLink } from './styles'
+
 const NavLinks = (props) => {
   const auth = useContext(AuthContext)
   return (
@@ -12,7 +13,7 @@ const NavLinks = (props) => {
       </li>
       {auth.isLoggedIn && (
         <li>
-          <CustomNavLink to="/u1/places">MY PLACES</CustomNavLink>
+          <CustomNavLink to={`/${auth.userId}/places`}>MY PLACES</CustomNavLink>
         </li>
       )}
       {auth.isLoggedIn && (

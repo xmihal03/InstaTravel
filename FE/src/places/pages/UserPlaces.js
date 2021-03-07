@@ -1,38 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PlaceList from '../components/PlaceList'
-
-const DUMMY_PLACES = [
-  {
-    id: 'p1',
-    title: 'A Building',
-    description: 'A tall building',
-    imageUrl:
-      'https://images.pexels.com/photos/4652004/pexels-photo-4652004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-    address:
-      'Dharmapuri, Forest Colony, Tajganj, Agra, Uttar Pradesh 282001, India',
-    location: { lat: 27.1752669, lng: 78.0399835 },
-    creatorId: 'u1',
-  },
-  {
-    id: 'p2',
-    title: 'A Building2',
-    description: 'A tall building2',
-    imageUrl:
-      'https://images.pexels.com/photos/4652004/pexels-photo-4652004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-    address:
-      'Dharmapuri, Forest Colony, Tajganj, Agra, Uttar Pradesh 282001, India',
-    location: { lat: 27.1752669, lng: 78.0399835 },
-    creatorId: 'u2',
-  },
-]
+import { useHttpClient } from '../../shared/hooks/http-hook'
+import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 
 const UserPlaces = () => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const [loadedPlaces, setLoadedPlaces] = useState()
+
   const userId = useParams().userId
-  const loadedPlaces = DUMMY_PLACES.filter(
-    (place) => place.creatorId === userId
+  useEffect(() => {
+    const iife = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/places/user/${userId}`
+        )
+        setLoadedPlaces(responseData.places)
+      } catch (err) {}
+    }
+    iife()
+  }, [sendRequest, userId, setLoadedPlaces])
+
+  const placeDeleteHandler = (deletedPlaceId) => {
+    setLoadedPlaces((prevPlaces) =>
+      prevPlaces.filter((place) => place.id !== deletedPlaceId)
+    )
+  }
+  return (
+    <>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && loadedPlaces && (
+        <PlaceList items={loadedPlaces} onDeletePlace={placeDeleteHandler} />
+      )}
+    </>
   )
-  return <PlaceList items={loadedPlaces} />
 }
 
 export default UserPlaces
