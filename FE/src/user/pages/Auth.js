@@ -13,7 +13,7 @@ import {
 import { AuthContext } from '../../shared/context/auth-context'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
-
+import ImageUpload from '../../shared/components/FormElements/ImageUpload'
 const Auth = () => {
   const auth = useContext(AuthContext)
   const [formState, inputHandler, setFormData] = useForm(
@@ -96,6 +96,7 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
+          {!isLoginMode && <ImageUpload center id="image" />}
           <Input
             placeholder="Your email"
             element="input"
