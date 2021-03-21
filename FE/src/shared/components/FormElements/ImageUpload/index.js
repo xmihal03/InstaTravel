@@ -1,16 +1,42 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Preview, ImageUploadWrapper } from './styles'
 import { StyledInput as FormControl } from '../Input/styles'
 import Button from '../Button'
 
 const ImageUpload = (props) => {
+  const [file, setFile] = useState()
+  const [previewUrl, setPreviewUrl] = useState()
+  const [isValid, setIsValid] = useState(false)
   const filePickerRef = useRef()
+
+  useEffect(() => {
+    if (!file) {
+      return
+    }
+    const fileReader = new FileReader()
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result)
+    }
+    fileReader.readAsDataURL(file)
+  }, [file])
+
   const pickImageHandler = () => {
     filePickerRef.current.click()
   }
 
   const pickedHandler = (e) => {
-    console.log(e.target)
+    let pickedFile
+    let fileIsValid = isValid
+    if (e.target.files && e.target.files.length === 1) {
+      pickedFile = e.target.files[0]
+      setFile(pickedFile)
+      setIsValid(true)
+      fileIsValid = true
+    } else {
+      setIsValid(false)
+      fileIsValid = false
+    }
+    props.onInput(props.id, pickedFile, fileIsValid)
   }
 
   return (
@@ -25,12 +51,14 @@ const ImageUpload = (props) => {
       />
       <ImageUploadWrapper>
         <Preview>
-          <img src="" alt="Preview" />
+          {previewUrl && <img src={previewUrl} alt="Preview" />}
+          {!previewUrl && <p>Please pick an image.</p>}
         </Preview>
         <Button type="button" onClick={pickImageHandler}>
           PICK IMAGE
         </Button>
       </ImageUploadWrapper>
+      {!isValid && <p>{props.errorText}</p>}
     </FormControl>
   )
 }
