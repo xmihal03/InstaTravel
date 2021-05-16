@@ -9,7 +9,7 @@ const UserItem = ({ image, name, placeCount, id }) => {
       <Card>
         <Link to={`/${id}/places`}>
           <UserImage>
-            <Avatar image={image} alt={name} />
+            <Avatar image={`http://localhost:5000/${image}`} alt={name} />
           </UserImage>
           <Info>
             <h2>{name}</h2>
